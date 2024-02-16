@@ -1,6 +1,8 @@
 # envflags
 [![Go Reference](https://pkg.go.dev/badge/github.com/efixler/envflags.svg)](https://pkg.go.dev/github.com/efixler/envflags)
+[![Build status](https://github.com/efixler/envflags/actions/workflows/test.yml/badge.svg)](https://github.com/efixler/envflags/actions/workflows/test.yml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/efixler/envflags)](https://goreportcard.com/report/github.com/efixler/envflags)
+[![License MIT](https://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/efixler/envflags?tab=MIT-1-ov-file)
 
 ## Description
 `envflags` is for when you need to provide alternative environment variable settings for  command
@@ -45,7 +47,7 @@ level = logLevel.Get()
 ```
 
 ### Adding Environment Variable Names to Usage
-`envars` provides a utility function that will add environment variable specs to usage
+`envflags` provides a utility function that will add environment variable specs to usage
 entries, while also adding a flag to a `flags.FlagSet`. 
 
 Instead of calling `flags.Var()` as in the example above, do:
