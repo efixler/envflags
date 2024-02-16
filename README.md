@@ -1,4 +1,6 @@
 # envflags
+[![Go Reference](https://pkg.go.dev/badge/github.com/efixler/envflags.svg)](https://pkg.go.dev/github.com/efixler/envflags)
+[![Go Report Card](https://goreportcard.com/badge/github.com/efixler/envflags)](https://goreportcard.com/report/github.com/efixler/envflags)
 
 ## Description
 `envflags` is for when you need to provide alternative environment variable settings for  command

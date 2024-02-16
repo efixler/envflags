@@ -1,3 +1,11 @@
+// envflags provides a way to set flags from environment variables,
+// working in conjunction with the flag package; it adds the
+// option to look for an environment variable in between the flag and
+// its defsult value, and also adds environment variable names to the
+// usage string.
+//
+// The precedence order for values is explicit flag -> environment
+// variable -> default.
 package envflags
 
 import (
@@ -13,17 +21,24 @@ import (
 )
 
 var (
-	EnvPrefix        = ""
+	EnvPrefix = ""
+	// Will be added to usage strings for flags that have an
+	// environment variable. The format string substitutes the
+	// environment variable name.
 	EnvUsageTemplate = "\nEnvironment: %s"
 )
 
 type Value[T any] struct {
+	envName    string
 	flagValue  T
 	converter  func(string) (T, error)
 	isBoolFlag bool
-	envName    string
 }
 
+// NewEnvFlagValue creates a new Value[T] with the given environment
+// variable name. Pass "" to the envName to disable environment variables
+// for this flag. The defaultValue is used if the environment variable or
+// explicit flag are not set or cannot be converted.
 func NewEnvFlagValue[T any](
 	envName string,
 	defaultValue T,
@@ -37,6 +52,8 @@ func NewEnvFlagValue[T any](
 	return envFlag
 }
 
+// AddTo adds the flag to the given flag.FlagSet with the given name.
+// usage is appended with environment flag info if applicable.
 func (p *Value[T]) AddTo(flags *flag.FlagSet, name, usage string) {
 	usage += p.envUsage()
 	flags.Var(p, name, usage)
@@ -78,10 +95,12 @@ func (p Value[T]) String() string {
 	return fmt.Sprintf("%v", p.flagValue)
 }
 
+// Get the value of the flag.
 func (p Value[T]) Get() T {
 	return p.flagValue
 }
 
+// Implements flag.Setter
 func (p *Value[T]) Set(value string) error {
 	if p.converter == nil {
 		return fmt.Errorf("no converter for type %T", p.flagValue)
